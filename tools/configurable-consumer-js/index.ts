@@ -15,20 +15,12 @@ const args: any = yargs
       alias: "u",
       default: "localhost",
     },
-    message: {
-      type: "string",
-      demandOption: false,
-      alias: "m",
-      default: `Helloworld from ${hostName}`,
-    },
     exchange: {
       type: "string",
       demandOption: false,
       alias: "x",
       default: "default-exchange",
-    },
-    routingKey: { type: "string", demandOption: false, alias: "t" },
-    repeat: { type: "number", demandOption: false, alias: "r", default: 0 },
+    }
   })
   .help("h")
   .describe("hostname", "RabbitMQ hostname")
@@ -49,34 +41,16 @@ function wait(milleseconds: number) {
 
 async function run() {
   try {
-    if (!args.routingKey) {
-      args.routingKey = args.exchange;
-    }
-
     const amqp = new AMQPClient(`amqp://${args.hostname}`);
     const conn = await amqp.connect();
     const ch = await conn.channel();
-    ch.exchangeDeclare(args.exchange, "fanout", {
-      passive: false,
-      durable: true,
-      autoDelete: false,
-      internal: false,
-    });
-
-    if (args.repeat == 0) {
-      console.log(`Publish message on ${args.exchange}`);
-      await ch.basicPublish(args.exchange, args.routingKey, args.message);
-    } else {
-      while (args.repeat > 0) {
-        console.log(`Publish message on ${args.exchange}`);
-        await wait(args.repeat);
-        await ch.basicPublish(args.exchange, args.routingKey, args.message,  { 
-          headers: {
-            emitted: new Date()
-          }
-        });
-      }
-    }
+    const q = await ch.queue()
+    const binding = await ch.queueBind(q.name, args.exchange, args.exchange)
+    const consumer = await q.subscribe({noAck: true}, async (msg) => {
+      console.log("Received | "+ msg.bodyToString(), {properties : msg.properties})
+    })
+    
+    await consumer.wait()
     await conn.close();
   } catch (e: any) {
     console.error("ERROR", e);
