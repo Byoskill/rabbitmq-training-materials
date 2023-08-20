@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ts-node index.ts"
   },
   "keywords": [
     "rabbitmq",
@@ -23,6 +23,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@types/yargs": "^17.0.24",
     "typescript": "^5.1.6"
   }
 }
