@@ -1,0 +1,22 @@
+{
+  "name": "configurable-producer",
+  "version": "1.0.0",
+  "description": "Configurable RabbitMQ writer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rabbitmq",
+    "producer"
+  ],
+  "author": "Sylvain Leroy",
+  "license": "ISC",
+  "dependencies": {
+    "@cloudamqp/amqp-client": "^3.0.0",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
