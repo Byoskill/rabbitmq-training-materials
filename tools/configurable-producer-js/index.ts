@@ -1,7 +1,7 @@
 /**
  * This tool can be use to send test messages to a RabbitMQ instance
  */
-import { AMQPClient } from '@cloudamqp/amqp-client'
+import { AMQPClient, AMQPError } from '@cloudamqp/amqp-client'
 
 async function run() {
   try {
@@ -16,7 +16,7 @@ async function run() {
     await q.publish("Hello World", {deliveryMode: 2})
     await consumer.wait() // will block until consumer is canceled or throw an error if server closed channel/connection
     await conn.close()
-  } catch (e) {
+  } catch (e: any) {
     console.error("ERROR", e)
     e.connection.close()
     setTimeout(run, 1000) // will try to reconnect in 1s
