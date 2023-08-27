@@ -61,6 +61,7 @@ async function run() {
         if (args.repeat == 0) {
           console.log(`Publish message on ${args.exchange}`);
           client.publish({ destination: args.exchange, body: args.message });
+          console.log("message published")
         } else {
           while (args.repeat > 0) {
             console.log(`Publish message on ${args.exchange}`);
@@ -70,6 +71,10 @@ async function run() {
           }
         }
       },
+      onStompError: (e) => {
+        console.log('error', e);
+      }
+      ,
     });
     client.activate();
   } catch (e: any) {
