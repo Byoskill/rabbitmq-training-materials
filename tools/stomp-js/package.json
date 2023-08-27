@@ -1,0 +1,32 @@
+{
+  "name": "stomp-publisher",
+  "version": "1.0.0",
+  "description": "Example of STOMP Publisher",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "test": "ts-node index.ts"
+  },
+  "keywords": [
+    "rabbitmq",
+    "producer"
+  ],
+  "author": "Sylvain Leroy",
+  "license": "ISC",
+  "dependencies": {
+    "@cloudamqp/amqp-client": "^3.0.0",
+    "@stomp/stompjs": "^7.0.0",
+    "dotenv": "^16.3.1",
+    "standard-version": "^9.5.0",
+    "ts-node": "^10.9.1",
+    "winston": "^3.10.0",
+    "ws": "^8.13.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.5",
+    "@types/yargs": "^17.0.24",
+    "typescript": "^5.1.6"
+  }
+}

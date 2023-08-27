@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: rabbitmq-route
+spec:
+  to:
+    kind: Service
+    name: rabbitmq
+    weight: 100
+  port:
+    targetPort: discovery  
+  wildcardPolicy: None
