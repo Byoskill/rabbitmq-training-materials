@@ -1,5 +1,8 @@
 //  gcloud auth application-default login
 // export GOOGLE_PROJECT=..
+provider "google" {
+  project = var.google_project
+}
 
 resource "google_compute_network" "vpc_network" {
   name                    = "training-vpc"
@@ -42,7 +45,7 @@ resource "google_compute_firewall" "rabbitmq" {
 
 
 # Create a single Compute Engine instance
-resource "google_compute_instance" "default" {
+resource "google_compute_instance" "rabbitmq" {
   name         = "rabbitmq-vm-${count.index}"
   machine_type = var.machine_type
   zone         = var.zone
@@ -61,8 +64,8 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  # Install Flask
-  metadata_startup_script = "sudo apt-get update; sudo apt-get install -yq build-essential python3-pip rsync; pip install flask"
+  # Install everything
+  metadata_startup_script = "file(script.sh)"
 
   network_interface {
     subnetwork = google_compute_subnetwork.default.id
@@ -71,4 +74,8 @@ resource "google_compute_instance" "default" {
       # Include this section to give the VM an external IP address
     }
   }
+}
+
+output "ip" {
+  value = "${google_compute_instance.rabbitmq[*].network_interface.0.access_config.0.nat_ip}"
 }

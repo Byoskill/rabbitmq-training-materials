@@ -1,12 +1,14 @@
 variable "gce_ssh_user" {
   type        = string
   description = "linux username to map the ssh key"
+  default = "rabbitmq"
 }
 
 
 variable "gce_ssh_pub_key_file" {
   type        = string
   description = "provide location to the ssh key"
+  default = "./gke_rsa.pub"
 }
 
 variable "machine_type" {
@@ -26,3 +28,7 @@ variable "zone" {
   description = "Zone for the VM"
 }
 
+variable "google_project" {
+  description = "Google project"
+  default = "training-ground-397918"
+}
