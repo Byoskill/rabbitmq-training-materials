@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  nodemaster:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"    
+      - "15672:15672"    
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+    networks:
+      - rabbitmq
+  nodeslave1:
+    image: rabbitmq:latest
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+    networks:
+      - rabbitmq
+  nodeslave2:
+    image: rabbitmq:latest
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+    networks:
+      - rabbitmq
+
+networks:
+  rabbitmq:
+
+volumes:
+  db-data:
