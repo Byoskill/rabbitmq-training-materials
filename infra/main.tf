@@ -10,7 +10,7 @@ resource "google_compute_network" "vpc_network" {
 resource "google_compute_subnetwork" "default" {
   name          = "public-facing-subnet"
   ip_cidr_range = "10.0.1.0/24"
-  region        = "us-west1"
+  region        = var.region
   network       = google_compute_network.vpc_network.id
 }
 
@@ -43,11 +43,12 @@ resource "google_compute_firewall" "rabbitmq" {
 
 # Create a single Compute Engine instance
 resource "google_compute_instance" "default" {
-  name         = "rabbitmq-vm"
-  machine_type = "f1-micro"
-  zone         = "us-west1-a"
-  tags         = ["ssh", "rabbitmq"]
-  count        = 2
+  name         = "rabbitmq-vm-${count.index}"
+  machine_type = var.machine_type
+  zone         = var.zone
+
+  tags  = ["ssh", "rabbitmq"]
+  count = 1
 
   metadata = {
     ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
