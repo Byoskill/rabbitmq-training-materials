@@ -2,3 +2,4 @@ gke_rsa*
 .history/
 .terraform/
 .terraform
+.terraform.lock.hcl
