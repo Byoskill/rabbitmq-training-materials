@@ -12,9 +12,14 @@ variable "gce_ssh_pub_key_file" {
 }
 
 variable "machine_type" {
-  default     = "f1-micro"
+  default     = "e2-medium"
   description = "Instance type"
 
+}
+
+variable "script" {
+  default = "./script.sh"
+  description = "Default script"
 }
 
 variable "region" {

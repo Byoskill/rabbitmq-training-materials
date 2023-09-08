@@ -65,7 +65,7 @@ resource "google_compute_instance" "rabbitmq" {
   }
 
   # Install everything
-  metadata_startup_script = "file(script.sh)"
+  metadata_startup_script = "${file(var.script)}"
 
   network_interface {
     subnetwork = google_compute_subnetwork.default.id
