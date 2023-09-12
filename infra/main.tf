@@ -43,6 +43,19 @@ resource "google_compute_firewall" "rabbitmq" {
   target_tags   = ["rabbitmq"]
 }
 
+resource "google_compute_firewall" "http" {
+  name = "allow-http"
+  allow {
+    ports    = ["80", "8080"]
+    protocol = "tcp"
+  }
+  direction     = "INGRESS"
+  network       = google_compute_network.vpc_network.id
+  priority      = 1000
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["http"]
+}
+
 
 # Create a single Compute Engine instance
 resource "google_compute_instance" "rabbitmq" {
@@ -50,8 +63,8 @@ resource "google_compute_instance" "rabbitmq" {
   machine_type = var.machine_type
   zone         = var.zone
 
-  tags  = ["ssh", "rabbitmq"]
-  count = 1
+  tags  = ["ssh", "rabbitmq", "http"] 
+  count = var.students
 
   metadata = {
     ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"

@@ -28,6 +28,14 @@ variable "region" {
 
 }
 
+
+variable "students" {
+  default     = "1"
+  description = "Number of students"
+  type = number
+
+}
+
 variable "zone" {
   default     = "us-west1-a"
   description = "Zone for the VM"
