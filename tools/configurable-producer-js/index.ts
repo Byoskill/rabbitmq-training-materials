@@ -27,6 +27,12 @@ const args: any = yargs
       alias: "x",
       default: "default-exchange",
     },
+    create: {
+      type: "boolean",
+      demandOption: false,
+      alias: "c",
+      default: true
+    },
     routingKey: { type: "string", demandOption: false, alias: "t" },
     repeat: { type: "number", demandOption: false, alias: "r", default: 0 },
   })
@@ -56,12 +62,14 @@ async function run() {
     const amqp = new AMQPClient(`amqp://${args.hostname}`);
     const conn = await amqp.connect();
     const ch = await conn.channel();
+    if (args.create) {
     ch.exchangeDeclare(args.exchange, "fanout", {
       passive: false,
       durable: true,
       autoDelete: false,
       internal: false,
     });
+    }
 
     if (args.repeat == 0) {
       console.log(`Publish message on ${args.exchange}`);
