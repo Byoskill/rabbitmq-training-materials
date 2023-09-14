@@ -41,7 +41,7 @@ function wait(milleseconds: number) {
 
 async function run() {
   try {
-    const amqp = new AMQPClient(`amqp://${args.hostname}`, {
+    const amqp = new AMQPClient(`amqps://${args.hostname}`, {
       ca: "/home/rabbitmq/ssl/tls-gen/basic/result/ca_certificate.pem",
       key: "/home/rabbitmq/ssl/tls-gen/basic/result/client_rabbitmq-vm-0_key.pem",
       cert:"/home/rabbitmq/ssl/tls-gen/basic/result/client_rabbitmq-vm-0_certificate.pem",
