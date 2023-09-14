@@ -4,6 +4,7 @@
 import { AMQPClient, AMQPError } from "@cloudamqp/amqp-client";
 import yargs from "yargs";
 import * as os from "os";
+import * as fs from "fs";
 // get host name
 const hostName = os.hostname();
 
@@ -42,9 +43,9 @@ function wait(milleseconds: number) {
 async function run() {
   try {
     const amqp = new AMQPClient(`amqps://${args.hostname}`, {
-      ca: "/home/rabbitmq/ssl/tls-gen/basic/result/ca_certificate.pem",
-      key: "/home/rabbitmq/ssl/tls-gen/basic/result/client_rabbitmq-vm-0_key.pem",
-      cert:"/home/rabbitmq/ssl/tls-gen/basic/result/client_rabbitmq-vm-0_certificate.pem",
+      ca: fs.readFileSync("/home/rabbitmq/ssl/tls-gen/basic/result/ca_certificate.pem"),
+      key: fs.readFileSync("/home/rabbitmq/ssl/tls-gen/basic/result/client_rabbitmq-vm-0_key.pem"),
+      cert:fs.readFileSync("/home/rabbitmq/ssl/tls-gen/basic/result/client_rabbitmq-vm-0_certificate.pem"),
       passphrase: "bunnies"
     });
     const conn = await amqp.connect();
